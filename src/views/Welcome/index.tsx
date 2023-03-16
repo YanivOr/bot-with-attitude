@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import './Welcome.scss';
 
 const Welcome = () => {
   const nav = useNavigate();
@@ -8,7 +9,7 @@ const Welcome = () => {
   const [nickname, setNickname] = useState('YanivOr');
 
   return (
-    <div>
+    <div className='Welcome'>
       <h1>Welcome</h1>
       <input
         type='text'

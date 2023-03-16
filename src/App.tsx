@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Welcome from './views/Welcome';
 import Chat from './views/Chat';
-import './App.css';
+import './App.scss';
 
 function App() {
   return (

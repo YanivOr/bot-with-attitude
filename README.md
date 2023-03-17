@@ -14,7 +14,7 @@ docker run \
       -e discovery.type=single-node \
       -e ES_JAVA_OPTS="-Xms1g -Xmx1g"\
       -e xpack.security.enabled=false \
-      -it \
+      -d \
       docker.elastic.co/elasticsearch/elasticsearch:8.6.2
 ```
 

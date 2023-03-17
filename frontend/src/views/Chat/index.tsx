@@ -32,7 +32,6 @@ const Chat = () => {
             setAllMessages(data);
             break;
           case 'newMessage':
-            console.log(data);
             setAllMessages([...allMessages, data]);
             break;
         }
@@ -43,6 +42,12 @@ const Chat = () => {
     shouldReconnect: () => true,
     queryParams: user,
   });
+
+  const sendButtonClicked = () => {
+    if (!message) return;
+    sendMessage(message);
+    setMessage('');
+  };
 
   if (!user.email || !user.nickname || !user.room) nav('/welcome');
 
@@ -56,8 +61,9 @@ const Chat = () => {
         ))}
       </div>
       <div className='main'>
-        {allMessages.map(({ _id, _source: { message } }) => (
+        {allMessages.map(({ _id, _source: { nickname, message } }) => (
           <div className='msg' key={_id}>
+            <div>{nickname}</div>
             {message}
           </div>
         ))}
@@ -70,14 +76,7 @@ const Chat = () => {
         onChange={(event) => setMessage(event.target.value)}
       />
       <div>
-        <button
-          onClick={() => {
-            sendMessage(message);
-            setMessage('');
-          }}
-        >
-          SEND
-        </button>
+        <button onClick={sendButtonClicked}>SEND</button>
       </div>
     </div>
   );

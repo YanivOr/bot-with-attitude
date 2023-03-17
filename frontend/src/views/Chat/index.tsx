@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './Chat.scss';
 
-const Chat = () => {
+const Chat = ({ sendClicked }: { sendClicked: (message: string) => void }) => {
   const [message, setMessage] = useState('');
 
   return (
@@ -14,6 +14,9 @@ const Chat = () => {
         value={message}
         onChange={(event) => setMessage(event.target.value)}
       />
+      <div>
+        <button onClick={() => sendClicked(message)}>SEND</button>
+      </div>
     </div>
   );
 };

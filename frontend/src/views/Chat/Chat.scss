@@ -11,6 +11,7 @@
     margin-bottom: 5px;
 
     .users {
+      min-width: 200px;
       border: 1px solid var(--blue);
       margin-right: 5px;
       padding: 10px;
@@ -25,8 +26,8 @@
 
       .msg {
         padding: 2px 4px;
-        margin-bottom: 5px;
-        border: 1px solid var(--blue);
+        margin-bottom: 10px;
+        background: var(--light-blue);
         border-radius: 5px;
       }
     }
@@ -46,5 +47,10 @@
       padding: 0px 10px;
       outline: none;
     }
+  }
+
+  .user {
+    font-weight: bold;
+    font-size: 0.8em;
   }
 }

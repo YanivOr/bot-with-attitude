@@ -63,15 +63,15 @@ const Chat = () => {
       <div className='users-main'>
         <div className='users'>
           {allUsers.map(({ email, nickname }) => (
-            <span className='user' key={email}>
+            <div className='user' key={email}>
               {nickname}
-            </span>
+            </div>
           ))}
         </div>
         <div className='main'>
           {allMessages.map(({ _id, _source: { nickname, message } }) => (
             <div className='msg' key={_id}>
-              <div>{nickname}</div>
+              <div className='user'>{nickname}</div>
               {message}
             </div>
           ))}

@@ -52,13 +52,18 @@ wss.on('connection', async (ws, req) => {
     room,
   });
 
-  const allMessages = await fetchAllMessages(room);
-  ws.send(
-    JSON.stringify({
-      type: 'allMessages',
-      data: allMessages,
-    })
-  );
+  try {
+    const allMessages = await fetchAllMessages(room);
+
+    ws.send(
+      JSON.stringify({
+        type: 'allMessages',
+        data: allMessages,
+      })
+    );
+  } catch (error) {
+    console.log(error);
+  }
 
   ws.on('close', (ws, req) => {
     delUser(socketId);
@@ -91,6 +96,38 @@ wss.on('connection', async (ws, req) => {
         );
       }
     });
+
+    // Check message and answer with bot
+    if (message === 'hello bot') {
+      const emailBot = 'bot@bot';
+      const nicknameBot = 'BWT';
+      const messageBot = 'Answer from BWT';
+
+      const indexedMessage = await addMessage(room, {
+        email: emailBot,
+        nickname: nicknameBot,
+        message: messageBot,
+      });
+
+      // Broadcast new message
+      wss.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(
+            JSON.stringify({
+              type: 'newMessage',
+              data: {
+                _id: indexedMessage._id,
+                _source: {
+                  email: emailBot,
+                  nickname: nicknameBot,
+                  message: messageBot,
+                },
+              },
+            })
+          );
+        }
+      });
+    }
   });
 
   // Broadcast updated users list
@@ -104,4 +141,11 @@ wss.on('connection', async (ws, req) => {
       );
     }
   });
+});
+
+// Add bot
+addUser('bot-socket', {
+  email: 'bot@bot',
+  nickname: 'BWT',
+  room: 'main-room',
 });

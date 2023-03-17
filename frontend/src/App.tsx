@@ -1,39 +1,23 @@
+import { useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import useWebSocket from 'react-use-websocket';
-import ChatContext, {
-  initUserParams,
-  initMessagesParams,
-} from './context/ChatContext';
+import ChatContext, { initUserParams } from './context/ChatContext';
+import { TUser } from './types/user';
+import { TMessage } from './types/messages';
 import Welcome from './views/Welcome';
 import Chat from './views/Chat';
 import './App.scss';
 
 const App = () => {
-  const WS_URL = 'ws://127.0.0.1:3000';
-
-  /*
-  const { sendMessage, lastMessage, readyState } = useWebSocket(WS_URL, {
-    onOpen: () => {
-      console.log('WebSocket connection established.');
-    },
-    shouldReconnect: (closeEvent) => true,
-    queryParams: { test111: 'test111', test222: 'test222' },
-  });
-  */
-
-  const sendClicked = (message: string) => {
-    // sendMessage(message);
-  };
+  const [user, setUser] = useState<TUser>(initUserParams);
+  // const [messages, setMessages] = useState<TMessage[]>([]);
 
   return (
     <div className='App'>
-      <ChatContext.Provider
-        value={{ ...initUserParams, ...initMessagesParams }}
-      >
+      <ChatContext.Provider value={{ user, setUser }}>
         <Routes>
           <Route path='/' element={<Navigate to='/welcome' />} />
           <Route path='/welcome' element={<Welcome />} />
-          <Route path='/chat' element={<Chat sendClicked={sendClicked} />} />
+          <Route path='/chat' element={<Chat />} />
         </Routes>
       </ChatContext.Provider>
     </div>

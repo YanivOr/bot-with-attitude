@@ -1,12 +1,15 @@
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import ChatContext from '../../context/ChatContext';
 import './Welcome.scss';
 
 const Welcome = () => {
   const nav = useNavigate();
 
-  const [email, setEmail] = useState('yaniv.or.78@gmail.com');
-  const [nickname, setNickname] = useState('YanivOr');
+  const [email, setEmail] = useState<string>('yaniv.or.78@gmail.com');
+  const [nickname, setNickname] = useState<string>('YanivOr');
+
+  const { setUser } = useContext(ChatContext);
 
   return (
     <div className='Welcome'>
@@ -25,6 +28,11 @@ const Welcome = () => {
       />
       <button
         onClick={() => {
+          setUser({
+            email,
+            nickname,
+            room: 'main',
+          });
           nav('/chat');
         }}
       >

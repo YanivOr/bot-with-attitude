@@ -1,0 +1,19 @@
+.App {
+  height: calc(100% - 40px);
+  padding: 20px;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--blue);
+
+  button {
+    background: var(--blue);
+    border: 0px;
+    border-radius: 5px;
+    padding: 0px 20px;
+    color: #ffffff;
+    font-weight: bold;
+    outline: none;
+    cursor: pointer;
+  }
+}

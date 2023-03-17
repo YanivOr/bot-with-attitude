@@ -14,30 +14,32 @@ const Welcome = () => {
   return (
     <div className='Welcome'>
       <h1>Welcome</h1>
-      <input
-        type='text'
-        placeholder='enter email'
-        value={email}
-        onChange={(event) => setEmail(event.target.value)}
-      />
-      <input
-        type='text'
-        placeholder='enter nickname'
-        value={nickname}
-        onChange={(event) => setNickname(event.target.value)}
-      />
-      <button
-        onClick={() => {
-          setUser({
-            email,
-            nickname,
-            room: 'main-room',
-          });
-          nav('/chat');
-        }}
-      >
-        Send
-      </button>
+      <div className='form'>
+        <input
+          type='text'
+          placeholder='enter email'
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+        />
+        <input
+          type='text'
+          placeholder='enter nickname'
+          value={nickname}
+          onChange={(event) => setNickname(event.target.value)}
+        />
+        <button
+          onClick={() => {
+            setUser({
+              email,
+              nickname,
+              room: 'main-room',
+            });
+            nav('/chat');
+          }}
+        >
+          SEND
+        </button>
+      </div>
     </div>
   );
 };

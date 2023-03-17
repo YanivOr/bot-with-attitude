@@ -60,29 +60,31 @@ const Chat = () => {
 
   return (
     <div className='Chat'>
-      <div className='users'>
-        {allUsers.map(({ email, nickname }) => (
-          <span className='user' key={email}>
-            {nickname}
-          </span>
-        ))}
+      <div className='users-main'>
+        <div className='users'>
+          {allUsers.map(({ email, nickname }) => (
+            <span className='user' key={email}>
+              {nickname}
+            </span>
+          ))}
+        </div>
+        <div className='main'>
+          {allMessages.map(({ _id, _source: { nickname, message } }) => (
+            <div className='msg' key={_id}>
+              <div>{nickname}</div>
+              {message}
+            </div>
+          ))}
+        </div>
       </div>
-      <div className='main'>
-        {allMessages.map(({ _id, _source: { nickname, message } }) => (
-          <div className='msg' key={_id}>
-            <div>{nickname}</div>
-            {message}
-          </div>
-        ))}
-      </div>
-      <input
-        className='message'
-        type='text'
-        placeholder='Message'
-        value={message}
-        onChange={(event) => setMessage(event.target.value)}
-      />
-      <div>
+      <div className='message-send'>
+        <input
+          className='message'
+          type='text'
+          placeholder='Message'
+          value={message}
+          onChange={(event) => setMessage(event.target.value)}
+        />
         <button onClick={sendButtonClicked}>SEND</button>
       </div>
       {botParams && <Bot />}

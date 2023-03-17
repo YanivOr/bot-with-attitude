@@ -1,2 +1,30 @@
 .Welcome {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  h1 {
+    font-size: 3.2em;
+    line-height: 1.1;
+    margin: 0px 0px 20px 0px;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: row;
+    height: 30px;
+  }
+
+  input,
+  button {
+    border: 1px solid var(--blue);
+    border-radius: 5px;
+  }
+
+  input {
+    margin-right: 5px;
+    padding: 0px 10px;
+  }
 }

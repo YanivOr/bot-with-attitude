@@ -6,6 +6,7 @@ import WebSocket, { WebSocketServer } from 'ws';
 import { Client as ElasticsearchClient } from '@elastic/elasticsearch';
 import queryString from 'querystring';
 import { allUsers, addUser, delUser } from './controllers/user';
+import { addMessage, fetchAllMessages } from './controllers/messages';
 
 dotenvConfig();
 
@@ -21,7 +22,7 @@ const PORT_WS = Number.isInteger(envPortWs) ? envPortWs : 3000;
 
 const wss: WebSocketServer = new WebSocketServer({ port: PORT_WS });
 
-const esClient = new ElasticsearchClient({
+export const esClient = new ElasticsearchClient({
   node: process.env.ES_ENDPOINT,
 });
 
@@ -31,30 +32,66 @@ app.listen(PORT_REST, () => {
 });
 */
 
-wss.on('connection', (ws, req) => {
-  const socketId = req.headers['sec-websocket-key'];
-  const qsParams = queryString.parse((req.url || '').replace(/^.*\?/, ''));
+const parseQueryString = (qs: string) => {
+  return queryString.parse(qs.replace(/^.*\?/, ''));
+};
 
-  if (!socketId || !qsParams.email || !qsParams.nickname || !qsParams.room)
-    return;
+wss.on('connection', async (ws, req) => {
+  const socketId = req.headers['sec-websocket-key'];
+  const qsParams = parseQueryString(req.url || '');
+
+  const email = qsParams.email?.toString() || '';
+  const nickname = qsParams.nickname?.toString() || '';
+  const room = qsParams.room?.toString() || '';
+
+  if (!socketId || !email || !nickname || !room) return;
 
   addUser(socketId, {
-    email: qsParams.email?.toString() || '',
-    nickname: qsParams.nickname?.toString() || '',
-    room: qsParams.room?.toString() || '',
+    email,
+    nickname,
+    room,
   });
+
+  const allMessages = await fetchAllMessages(room);
+  ws.send(
+    JSON.stringify({
+      type: 'allMessages',
+      data: allMessages,
+    })
+  );
 
   ws.on('close', (ws, req) => {
     delUser(socketId);
   });
 
-  /*
-  ws.on('message', (data) => {
-    console.log('received: %s', data);
-  });
+  ws.on('message', async (data) => {
+    const message = data.toString();
 
-  ws.send('something');
-  */
+    const indexedMessage = await addMessage(room, {
+      email,
+      nickname,
+      message,
+    });
+
+    // Broadcast new message
+    wss.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(
+          JSON.stringify({
+            type: 'newMessage',
+            data: {
+              _id: indexedMessage._id,
+              _source: {
+                email,
+                nickname,
+                message,
+              },
+            },
+          })
+        );
+      }
+    });
+  });
 
   // Broadcast updated users list
   wss.clients.forEach((client) => {
@@ -68,45 +105,3 @@ wss.on('connection', (ws, req) => {
     }
   });
 });
-
-//async function run() {
-/*
-  await esClient.index({
-    index: 'game-of-thrones',
-    document: {
-      character: 'Ned Stark',
-      quote: 'Winter is coming.',
-    },
-  });
-
-  await esClient.index({
-    index: 'game-of-thrones',
-    document: {
-      character: 'Daenerys Targaryen',
-      quote: 'I am the blood of the dragon.',
-    },
-  });
-
-  await esClient.index({
-    index: 'game-of-thrones',
-    document: {
-      character: 'Tyrion Lannister',
-      quote: 'A mind needs books like a sword needs a whetstone.',
-    },
-  });
-  */
-// await esClient.indices.refresh({ index: 'game-of-thrones' });
-/*
-  const result = await esClient.search({
-    index: 'game-of-thrones',
-    query: {
-      match: { quote: 'sword' },
-    },
-  });
-
-
-  console.log(result.hits.hits);
-  */
-//}
-
-// run().catch(console.log);

@@ -1,3 +1,5 @@
 export type TMessage = {
-  content: string;
+  email: string;
+  nickname: string;
+  message: string;
 };

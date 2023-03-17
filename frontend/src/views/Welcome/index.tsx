@@ -31,7 +31,7 @@ const Welcome = () => {
           setUser({
             email,
             nickname,
-            room: 'main',
+            room: 'main-room',
           });
           nav('/chat');
         }}

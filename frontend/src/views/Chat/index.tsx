@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import useWebSocket from 'react-use-websocket';
 import ChatContext from '../../context/ChatContext';
 import { TUser } from '../../types/user';
+import { TMessage } from '../../types/messages';
 import './Chat.scss';
 
 const Chat = () => {
@@ -11,6 +12,7 @@ const Chat = () => {
   const nav = useNavigate();
 
   const [allUsers, setAllUsers] = useState<TUser[]>([]);
+  const [allMessages, setAllMessages] = useState<TMessage[]>([]);
   const [message, setMessage] = useState<string>('');
   const { user } = useContext(ChatContext);
 
@@ -26,6 +28,13 @@ const Chat = () => {
           case 'allUsers':
             setAllUsers(Object.values(data));
             break;
+          case 'allMessages':
+            setAllMessages(data);
+            break;
+          case 'newMessage':
+            console.log(data);
+            setAllMessages([...allMessages, data]);
+            break;
         }
       } catch (err) {
         console.log(err);
@@ -40,11 +49,19 @@ const Chat = () => {
   return (
     <div className='Chat'>
       <div className='users'>
-        {allUsers.map(({ nickname }) => (
-          <span className='user'>{nickname}</span>
+        {allUsers.map(({ email, nickname }) => (
+          <span className='user' key={email}>
+            {nickname}
+          </span>
         ))}
       </div>
-      <div className='main'></div>
+      <div className='main'>
+        {allMessages.map(({ _id, _source: { message } }) => (
+          <div className='msg' key={_id}>
+            {message}
+          </div>
+        ))}
+      </div>
       <input
         className='message'
         type='text'

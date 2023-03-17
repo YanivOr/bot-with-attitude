@@ -1,3 +1,8 @@
 export type TMessage = {
-  id: string;
+  _id: string;
+  _source: {
+    email: string;
+    nickname: string;
+    message: string;
+  };
 };

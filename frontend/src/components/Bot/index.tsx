@@ -1,5 +1,7 @@
+import './Bot.scss';
+
 const Bot = () => {
-  return <div>BWA</div>;
+  return <div className='Bot'></div>;
 };
 
 export default Bot;

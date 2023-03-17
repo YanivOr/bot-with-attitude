@@ -23,12 +23,22 @@
       border: 1px solid var(--blue);
       padding: 10px;
       border-radius: 5px;
+      overflow-y: auto;
 
       .msg {
+        display: inline-block;
         padding: 2px 4px;
         margin-bottom: 10px;
-        background: var(--light-blue);
+        background: var(--beige);
         border-radius: 5px;
+
+        span {
+          padding: 5px 20px 5px 0px;
+        }
+
+        .user {
+          font-size: 0.6em;
+        }
       }
     }
   }

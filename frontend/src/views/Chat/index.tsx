@@ -70,9 +70,11 @@ const Chat = () => {
         </div>
         <div className='main'>
           {allMessages.map(({ _id, _source: { nickname, message } }) => (
-            <div className='msg' key={_id}>
-              <div className='user'>{nickname}</div>
-              {message}
+            <div className='msg-holder' key={_id}>
+              <div className='msg'>
+                <div className='user'>{nickname}</div>
+                <span>{message}</span>
+              </div>
             </div>
           ))}
         </div>

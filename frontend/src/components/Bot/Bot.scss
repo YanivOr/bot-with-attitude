@@ -1,0 +1,18 @@
+.Bot {
+  position: absolute;
+  top: 0px;
+  right: -781px;
+  width: 781px;
+  height: 146px;
+  background: url('../../assets/airplane-banner-50.png') no-repeat;
+  animation: airplane 5s 1;
+}
+
+@keyframes airplane {
+  0% {
+    right: -781px;
+  }
+  100% {
+    right: 1000px;
+  }
+}

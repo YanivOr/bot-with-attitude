@@ -100,8 +100,8 @@ wss.on('connection', async (ws, req) => {
     // Check message and answer with bot
     if (message === 'hello bot') {
       const emailBot = 'bot@bot';
-      const nicknameBot = 'BWT';
-      const messageBot = 'Answer from BWT';
+      const nicknameBot = 'BWA';
+      const messageBot = 'Answer from BWA';
 
       const indexedMessage = await addMessage(room, {
         email: emailBot,
@@ -146,6 +146,6 @@ wss.on('connection', async (ws, req) => {
 // Add bot
 addUser('bot-socket', {
   email: 'bot@bot',
-  nickname: 'BWT',
+  nickname: 'BWA',
   room: 'main-room',
 });

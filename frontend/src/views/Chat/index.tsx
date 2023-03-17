@@ -4,6 +4,7 @@ import useWebSocket from 'react-use-websocket';
 import ChatContext from '../../context/ChatContext';
 import { TUser } from '../../types/user';
 import { TMessage } from '../../types/messages';
+import Bot from '../../components/Bot';
 import './Chat.scss';
 
 const Chat = () => {
@@ -14,6 +15,8 @@ const Chat = () => {
   const [allUsers, setAllUsers] = useState<TUser[]>([]);
   const [allMessages, setAllMessages] = useState<TMessage[]>([]);
   const [message, setMessage] = useState<string>('');
+  const [botParams, setBotParams] = useState<{} | null>(null);
+
   const { user } = useContext(ChatContext);
 
   const { sendMessage, lastMessage, readyState } = useWebSocket(WS_URL, {
@@ -32,6 +35,10 @@ const Chat = () => {
             setAllMessages(data);
             break;
           case 'newMessage':
+            if (data._source.nickname === 'BWA') {
+              setBotParams({});
+            }
+
             setAllMessages([...allMessages, data]);
             break;
         }
@@ -78,6 +85,7 @@ const Chat = () => {
       <div>
         <button onClick={sendButtonClicked}>SEND</button>
       </div>
+      {botParams && <Bot />}
     </div>
   );
 };

@@ -16,7 +16,7 @@ const Chat = () => {
   const [allUsers, setAllUsers] = useState<TUser[]>([]);
   const [allMessages, setAllMessages] = useState<TMessage[]>([]);
   const [message, setMessage] = useState<string>('');
-  const [botParams, setBotParams] = useState<{} | null>(null);
+  const [displayBot, setDisplayBot] = useState<boolean>(false);
 
   const { user } = useContext(ChatContext);
 
@@ -37,7 +37,7 @@ const Chat = () => {
             break;
           case 'newMessage':
             if (data._source.nickname === 'BWA') {
-              setBotParams({});
+              setDisplayBot(true);
             }
 
             setAllMessages([data, ...allMessages]);
@@ -90,7 +90,7 @@ const Chat = () => {
         />
         <button onClick={sendButtonClicked}>SEND</button>
       </div>
-      {botParams && <Bot hideBot={() => setBotParams(null)} />}
+      {displayBot && <Bot hideBot={() => setDisplayBot(false)} />}
     </div>
   );
 };

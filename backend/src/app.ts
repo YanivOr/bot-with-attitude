@@ -40,11 +40,13 @@ wss.on('connection', async (ws, req) => {
   const socketId = req.headers['sec-websocket-key'];
   const qsParams = parseQueryString(req.url || '');
 
+  const type = qsParams.type?.toString() || '';
+  const ref = qsParams.ref?.toString() || '';
   const email = qsParams.email?.toString() || '';
   const nickname = qsParams.nickname?.toString() || '';
   const room = qsParams.room?.toString() || '';
 
-  if (!socketId || !email || !nickname || !room) return;
+  if (!socketId || !type || !email || !nickname || !room) return;
 
   addUser(socketId, {
     email,
@@ -73,6 +75,8 @@ wss.on('connection', async (ws, req) => {
     const message = data.toString();
 
     const indexedMessage = await addMessage(room, {
+      type,
+      ref,
       email,
       nickname,
       message,
@@ -87,6 +91,8 @@ wss.on('connection', async (ws, req) => {
             data: {
               _id: indexedMessage._id,
               _source: {
+                type,
+                ref,
                 email,
                 nickname,
                 message,
@@ -99,11 +105,15 @@ wss.on('connection', async (ws, req) => {
 
     // Check message and answer with bot
     if (message === 'hello bot') {
+      const typeBot = 'B';
+      const refBot = '';
       const emailBot = 'bot@bot';
       const nicknameBot = 'BWA';
       const messageBot = 'Answer from BWA';
 
       const indexedMessage = await addMessage(room, {
+        type: typeBot,
+        ref: refBot,
         email: emailBot,
         nickname: nicknameBot,
         message: messageBot,
@@ -118,6 +128,8 @@ wss.on('connection', async (ws, req) => {
               data: {
                 _id: indexedMessage._id,
                 _source: {
+                  type: typeBot,
+                  ref: refBot,
                   email: emailBot,
                   nickname: nicknameBot,
                   message: messageBot,

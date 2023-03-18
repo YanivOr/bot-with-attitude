@@ -3,11 +3,13 @@ import { TMessage } from '../types/messages';
 
 export const addMessage = async (
   room: string,
-  { email, nickname, message }: TMessage
+  { type, ref, email, nickname, message }: TMessage
 ) => {
   const indexedMessage = await esClient.index({
     index: room,
     document: {
+      type,
+      ref,
       email,
       nickname,
       message,

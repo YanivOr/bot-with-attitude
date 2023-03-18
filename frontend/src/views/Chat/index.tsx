@@ -53,7 +53,8 @@ const Chat = () => {
 
   const sendButtonClicked = () => {
     if (!message) return;
-    sendMessage(message);
+    console.log(message);
+    // sendMessage(message);
     setMessage('');
   };
 

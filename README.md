@@ -30,3 +30,13 @@ Test with:
 ```
 curl 127.0.0.1:9200
 ```
+
+```
+curl -XGET --header 'Content-Type: application/json' http://localhost:9200/main-room/_search/?pretty=true -d '{"query" : {"match_all" : { }}}'
+
+curl -XGET --header 'Content-Type: application/json' http://localhost:9200/main-room/_search/?pretty=true -d '{"query" : {"fuzzy" : { "message": "How long is an Olympic swimming pool (in meters)?"}}}'
+
+curl -XGET --header 'Content-Type: application/json' http://localhost:9200/main-room/_search/?pretty=true -d '{"query" : {"terms" : { "message": ["olympic" , "swimming"]}}}'
+
+
+```

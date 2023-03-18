@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ChatContext from '../../context/UserContext';
+import UserContext from '../../context/UserContext';
 import './Welcome.scss';
 
 const Welcome = () => {
@@ -9,7 +9,7 @@ const Welcome = () => {
   const [email, setEmail] = useState<string>('yaniv.or.78@gmail.com');
   const [nickname, setNickname] = useState<string>('YanivOr');
 
-  const { setUser } = useContext(ChatContext);
+  const { setUser } = useContext(UserContext);
 
   return (
     <div className='Welcome'>

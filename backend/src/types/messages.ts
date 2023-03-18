@@ -1,7 +1,13 @@
-// export type TMessageType = 'Q' | 'A' | 'B';
+/*
+enum MessageType {
+  Q,
+  A,
+  B,
+}
+*/
 
 export type TMessage = {
-  type: string; // TMessageType;
+  type: string; // MessageType;
   ref?: string;
   email: string;
   nickname: string;

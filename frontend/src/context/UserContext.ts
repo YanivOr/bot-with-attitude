@@ -1,11 +1,5 @@
 import { createContext } from 'react';
-import { TUser } from '../types/user';
-
-export const initUserParams = {
-  email: '',
-  nickname: '',
-  room: '',
-};
+import { TUser, initUser } from '../types/user';
 
 export interface IUserContext {
   user: TUser;
@@ -13,7 +7,7 @@ export interface IUserContext {
 }
 
 const UserContext = createContext<IUserContext>({
-  user: initUserParams,
+  user: initUser,
   setUser() {},
 });
 export default UserContext;

@@ -2,7 +2,7 @@ import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useWebSocket from 'react-use-websocket';
 // import { delay } from '../../helpers';
-import ChatContext from '../../context/UserContext';
+import UserContext from '../../context/UserContext';
 import { TUser } from '../../types/user';
 import { TMessage } from '../../types/messages';
 import Bot from '../../components/Bot';
@@ -13,12 +13,15 @@ const Chat = () => {
 
   const nav = useNavigate();
 
+  const [displayBot, setDisplayBot] = useState<boolean>(false);
   const [allUsers, setAllUsers] = useState<TUser[]>([]);
   const [allMessages, setAllMessages] = useState<TMessage[]>([]);
-  const [message, setMessage] = useState<string>('');
-  const [displayBot, setDisplayBot] = useState<boolean>(false);
 
-  const { user } = useContext(ChatContext);
+  const [type, setType] = useState<string>('Q');
+  const [ref, setRef] = useState<TMessage | null>(null);
+  const [message, setMessage] = useState<string>('');
+
+  const { user } = useContext(UserContext);
 
   const { sendMessage, lastMessage, readyState } = useWebSocket(WS_URL, {
     onOpen: () => {
@@ -53,9 +56,18 @@ const Chat = () => {
 
   const sendButtonClicked = () => {
     if (!message) return;
-    console.log(message);
-    // sendMessage(message);
+
+    sendMessage(
+      JSON.stringify({
+        type,
+        ref: ref?._id,
+        message,
+      })
+    );
+
     setMessage('');
+    setType('Q');
+    setRef(null);
   };
 
   const msgClicked = (_id: string) => {
@@ -63,7 +75,9 @@ const Chat = () => {
       (message) => message._id === _id
     );
     const refMessage = filteredMessage[0];
-    console.log(refMessage);
+
+    setType('A');
+    setRef(refMessage);
   };
 
   if (!user.email || !user.nickname || !user.room) nav('/welcome');
@@ -79,14 +93,17 @@ const Chat = () => {
           ))}
         </div>
         <div className='main'>
-          {allMessages.map(({ _id, _source: { nickname, message } }) => (
+          {allMessages.map(({ _id, _source: { type, nickname, message } }) => (
             <div
               className={`msg-holder ${
                 user.nickname === nickname ? 'mine' : 'msg-holder'
               }`}
               key={_id}
             >
-              <div className='msg' onClick={() => msgClicked(_id)}>
+              <div
+                className='msg'
+                onClick={() => type === 'Q' && msgClicked(_id)}
+              >
                 <div className='user'>{nickname}</div>
                 <span>{message}</span>
               </div>
@@ -94,6 +111,21 @@ const Chat = () => {
           ))}
         </div>
       </div>
+      {ref && (
+        <div className='msg-holder'>
+          <div className='msg ref'>
+            <div className='user'>{ref._source.nickname}</div>
+            <span>{ref._source.message}</span>
+          </div>
+          <div
+            className='close-ref'
+            onClick={() => {
+              setType('Q');
+              setRef(null);
+            }}
+          ></div>
+        </div>
+      )}
       <div className='message-send'>
         <input
           className='message'

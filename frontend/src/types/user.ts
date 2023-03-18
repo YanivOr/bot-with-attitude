@@ -3,3 +3,9 @@ export type TUser = {
   nickname: string;
   room: string;
 };
+
+export const initUser = {
+  email: '',
+  nickname: '',
+  room: '',
+};

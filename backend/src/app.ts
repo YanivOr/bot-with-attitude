@@ -46,7 +46,7 @@ wss.on('connection', async (ws, req) => {
   const nickname = qsParams.nickname?.toString() || '';
   const room = qsParams.room?.toString() || '';
 
-  if (!socketId || !type || !email || !nickname || !room) return;
+  if (!socketId || !email || !nickname || !room) return;
 
   addUser(socketId, {
     email,
@@ -72,7 +72,7 @@ wss.on('connection', async (ws, req) => {
   });
 
   ws.on('message', async (data) => {
-    const message = data.toString();
+    const { type, ref, message } = JSON.parse(data.toString());
 
     const indexedMessage = await addMessage(room, {
       type,

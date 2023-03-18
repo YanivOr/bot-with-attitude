@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ChatContext from '../../context/ChatContext';
+import ChatContext from '../../context/UserContext';
 import './Welcome.scss';
 
 const Welcome = () => {

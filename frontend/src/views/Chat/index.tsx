@@ -2,7 +2,7 @@ import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useWebSocket from 'react-use-websocket';
 // import { delay } from '../../helpers';
-import ChatContext from '../../context/ChatContext';
+import ChatContext from '../../context/UserContext';
 import { TUser } from '../../types/user';
 import { TMessage } from '../../types/messages';
 import Bot from '../../components/Bot';
@@ -57,6 +57,14 @@ const Chat = () => {
     setMessage('');
   };
 
+  const msgClicked = (_id: string) => {
+    const filteredMessage = allMessages.filter(
+      (message) => message._id === _id
+    );
+    const refMessage = filteredMessage[0];
+    console.log(refMessage);
+  };
+
   if (!user.email || !user.nickname || !user.room) nav('/welcome');
 
   return (
@@ -71,8 +79,13 @@ const Chat = () => {
         </div>
         <div className='main'>
           {allMessages.map(({ _id, _source: { nickname, message } }) => (
-            <div className='msg-holder' key={_id}>
-              <div className='msg'>
+            <div
+              className={`msg-holder ${
+                user.nickname === nickname ? 'mine' : 'msg-holder'
+              }`}
+              key={_id}
+            >
+              <div className='msg' onClick={() => msgClicked(_id)}>
                 <div className='user'>{nickname}</div>
                 <span>{message}</span>
               </div>

@@ -25,25 +25,6 @@
       cursor: default;
     }
   }
-
-  & {
-    .msg.ref {
-      cursor: default;
-    }
-
-    .close-ref {
-      position: relative;
-      right: 20px;
-      top: -10px;
-    }
-
-    .close-ref::after {
-      content: '\00d7';
-      font-size: 1.4em;
-      font-weight: 300;
-      cursor: pointer;
-    }
-  }
 }
 
 .MessageBubbleBot {
@@ -100,5 +81,33 @@
     .action {
       font-weight: normal;
     }
+  }
+}
+
+.msg-ref {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+
+  .msg {
+    display: inline-block;
+    max-width: 60%;
+    padding: 5px 10px;
+    background: var(--beige);
+    border-radius: 5px;
+    cursor: default;
+  }
+
+  .close-ref {
+    position: relative;
+    right: 20px;
+    top: -10px;
+  }
+
+  .close-ref::after {
+    content: '\00d7';
+    font-size: 1.4em;
+    font-weight: 300;
+    cursor: pointer;
   }
 }

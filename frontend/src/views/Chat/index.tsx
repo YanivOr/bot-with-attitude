@@ -122,8 +122,8 @@ const Chat = () => {
         </div>
       </div>
       {ref && (
-        <div className='msg-holder'>
-          <div className='msg ref'>
+        <div className='msg-ref'>
+          <div className='msg'>
             <div className='user'>{ref._source.nickname}</div>
             <span>{ref._source.message}</span>
           </div>

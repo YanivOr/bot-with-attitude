@@ -102,7 +102,7 @@ wss.on('connection', async (ws, req) => {
     });
 
     // Check message and answer with bot
-    if (type === 'Q') {
+    if (false && type === 'Q') {
       const typeBot = 'B';
       const refBot = '';
       const emailBot = 'bot@bot';

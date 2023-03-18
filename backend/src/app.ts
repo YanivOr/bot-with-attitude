@@ -40,8 +40,6 @@ wss.on('connection', async (ws, req) => {
   const socketId = req.headers['sec-websocket-key'];
   const qsParams = parseQueryString(req.url || '');
 
-  const type = qsParams.type?.toString() || '';
-  const ref = qsParams.ref?.toString() || '';
   const email = qsParams.email?.toString() || '';
   const nickname = qsParams.nickname?.toString() || '';
   const room = qsParams.room?.toString() || '';
@@ -104,12 +102,21 @@ wss.on('connection', async (ws, req) => {
     });
 
     // Check message and answer with bot
-    if (message === 'hello bot') {
+    if (type === 'Q') {
       const typeBot = 'B';
       const refBot = '';
       const emailBot = 'bot@bot';
       const nicknameBot = 'BWA';
-      const messageBot = 'Answer from BWA';
+      const messageBot = JSON.stringify({
+        q: {
+          nickname: 'Yaniv Or',
+          message: 'How long is an Olympic swimming pool (in meters)?',
+        },
+        a: {
+          nickname: 'Or',
+          message: '50 meters',
+        },
+      });
 
       const indexedMessage = await addMessage(room, {
         type: typeBot,

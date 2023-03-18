@@ -1,0 +1,65 @@
+.MessageBubble {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+
+  .msg {
+    display: inline-block;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    background: var(--beige);
+    border-radius: 5px;
+    cursor: pointer;
+
+    span {
+      padding: 5px 20px 5px 0px;
+    }
+  }
+
+  &.mine {
+    justify-content: right;
+
+    .msg {
+      background: var(--light-grey);
+      cursor: default;
+    }
+  }
+
+  & {
+    .msg.ref {
+      cursor: default;
+    }
+
+    .close-ref {
+      position: relative;
+      right: 20px;
+      top: -10px;
+    }
+
+    .close-ref::after {
+      content: '\00d7';
+      font-size: 1.4em;
+      font-weight: 300;
+      cursor: pointer;
+    }
+  }
+}
+
+.MessageBubbleBot {
+  .msg {
+    display: inline-block;
+    padding: 10px 10px 5px 10px;
+    margin-bottom: 10px;
+    background: var(--light-yelow);
+    border-radius: 5px;
+
+    .notice,
+    .msg-block {
+      margin-bottom: 10px;
+    }
+
+    .action {
+      font-weight: normal;
+    }
+  }
+}

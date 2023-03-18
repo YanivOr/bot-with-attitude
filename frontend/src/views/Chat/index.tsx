@@ -6,6 +6,7 @@ import UserContext from '../../context/UserContext';
 import { TUser } from '../../types/user';
 import { TMessage } from '../../types/messages';
 import Bot from '../../components/Bot';
+import MessageBubble from '../../components/MessageBubble';
 import './Chat.scss';
 
 const Chat = () => {
@@ -93,22 +94,29 @@ const Chat = () => {
           ))}
         </div>
         <div className='main'>
-          {allMessages.map(({ _id, _source: { type, nickname, message } }) => (
-            <div
-              className={`msg-holder ${
-                user.nickname === nickname ? 'mine' : 'msg-holder'
-              }`}
-              key={_id}
-            >
-              <div
-                className='msg'
-                onClick={() => type === 'Q' && msgClicked(_id)}
-              >
-                <div className='user'>{nickname}</div>
-                <span>{message}</span>
-              </div>
-            </div>
-          ))}
+          {allMessages.map(
+            ({ _id, _source: { type, email, nickname, message } }) => {
+              let bubbleType: string | null = null;
+
+              if (user.email === email) {
+                bubbleType = 'mine';
+              } else if (type === 'B') {
+                bubbleType = 'bot';
+              }
+
+              return (
+                <MessageBubble
+                  key={_id}
+                  bubbleType={bubbleType}
+                  _id={_id}
+                  type={type}
+                  nickname={nickname}
+                  message={message}
+                  msgClicked={msgClicked}
+                />
+              );
+            }
+          )}
         </div>
       </div>
       {ref && (

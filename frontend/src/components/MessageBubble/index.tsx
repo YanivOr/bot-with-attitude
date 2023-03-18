@@ -16,7 +16,7 @@ const MessageBubble = ({
   msgClicked: (_id: string) => void;
 }) => {
   switch (bubbleType) {
-    case 'bot':
+    case 'bot': {
       const { q, a } = JSON.parse(message);
 
       return (
@@ -24,9 +24,12 @@ const MessageBubble = ({
           <div className='msg'>
             <div className='header'>
               <div className='bot'></div>
-              <div className='speech-bubble'>
-                Actually, this question was asked before
-              </div>
+              <div
+                className='speech-bubble'
+                dangerouslySetInnerHTML={{
+                  __html: 'Actually, this question was asked before',
+                }}
+              />
             </div>
             <div className='msg-block'>
               <div className='user'>
@@ -43,8 +46,24 @@ const MessageBubble = ({
           </div>
         </div>
       );
+    }
+    case 'bot-notice': {
+      return (
+        <div className='MessageBubbleBot'>
+          <div className='msg'>
+            <div className='header'>
+              <div className='bot'></div>
+              <div
+                className='speech-bubble'
+                dangerouslySetInnerHTML={{ __html: message }}
+              />
+            </div>
+          </div>
+        </div>
+      );
+    }
     case 'mine':
-    default:
+    default: {
       return (
         <div
           className={`MessageBubble ${bubbleType === 'mine' ? 'mine' : ''}`}
@@ -56,6 +75,7 @@ const MessageBubble = ({
           </div>
         </div>
       );
+    }
   }
 };
 

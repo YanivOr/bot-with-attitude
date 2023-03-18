@@ -2,6 +2,7 @@ enum MessageType {
   Q = 'Q',
   A = 'A',
   B = 'B',
+  N = 'N',
 }
 
 export type TMessage = {

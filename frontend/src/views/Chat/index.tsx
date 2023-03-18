@@ -37,7 +37,19 @@ const Chat = () => {
             setAllUsers(Object.values(data));
             break;
           case 'allMessages':
-            setAllMessages(data);
+            setAllMessages([
+              {
+                _id: 'bot-1st-msg',
+                _source: {
+                  type: 'N',
+                  email: 'bot@bot',
+                  nickname: 'BWA',
+                  message:
+                    "Hi, I Am your Chatbot. I can help you find answers already asked on this chat room.<br /><b>Trust me, i'm a robot.<b>",
+                },
+              },
+              ...data,
+            ]);
             break;
           case 'newMessage':
             if (data._source.nickname === 'BWA') {
@@ -102,6 +114,8 @@ const Chat = () => {
                 bubbleType = 'mine';
               } else if (type === 'B') {
                 bubbleType = 'bot';
+              } else if (type === 'N') {
+                bubbleType = 'bot-notice';
               }
 
               return (

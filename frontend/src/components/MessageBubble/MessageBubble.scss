@@ -5,8 +5,9 @@
 
   .msg {
     display: inline-block;
+    max-width: 60%;
     padding: 5px 10px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     background: var(--beige);
     border-radius: 5px;
     cursor: pointer;
@@ -49,7 +50,7 @@
   .msg {
     display: inline-block;
     padding: 10px 10px 5px 10px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     background: var(--light-yelow);
     border-radius: 5px;
 
@@ -70,9 +71,10 @@
         background: var(--light-blue);
         padding: 10px;
         margin-left: 25px;
-        border-radius: 0.4em;
-        font-size: 0.7em;
+        border-radius: 10px;
+        font-size: 0.8em;
         font-weight: 500;
+        font-style: italic;
       }
 
       .speech-bubble:after {

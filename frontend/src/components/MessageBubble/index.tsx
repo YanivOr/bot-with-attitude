@@ -22,8 +22,11 @@ const MessageBubble = ({
       return (
         <div className='MessageBubbleBot'>
           <div className='msg'>
-            <div className='notice'>
-              Actually, this question was asked before
+            <div className='header'>
+              <div className='bot'></div>
+              <div className='speech-bubble'>
+                Actually, this question was asked before
+              </div>
             </div>
             <div className='msg-block'>
               <div className='user'>

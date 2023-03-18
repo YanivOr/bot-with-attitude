@@ -53,7 +53,44 @@
     background: var(--light-yelow);
     border-radius: 5px;
 
-    .notice,
+    .header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-bottom: 10px;
+
+      .bot {
+        width: 77px;
+        height: 77px;
+        background: url('../../assets/bot-50.png') no-repeat;
+      }
+
+      .speech-bubble {
+        position: relative;
+        background: var(--light-blue);
+        padding: 10px;
+        margin-left: 25px;
+        border-radius: 0.4em;
+        font-size: 0.7em;
+        font-weight: 500;
+      }
+
+      .speech-bubble:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 0;
+        height: 0;
+        border: 20px solid transparent;
+        border-right-color: var(--light-blue);
+        border-left: 0;
+        border-bottom: 0;
+        margin-top: -10px;
+        margin-left: -20px;
+      }
+    }
+
     .msg-block {
       margin-bottom: 10px;
     }

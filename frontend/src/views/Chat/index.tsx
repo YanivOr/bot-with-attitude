@@ -4,7 +4,7 @@ import useWebSocket from 'react-use-websocket';
 // import { delay } from '../../helpers';
 import UserContext from '../../context/UserContext';
 import { TUser } from '../../types/user';
-import { TMessage } from '../../types/messages';
+import { TMessage, initMessage } from '../../types/messages';
 import Bot from '../../components/Bot';
 import MessageBubble from '../../components/MessageBubble';
 import './Chat.scss';
@@ -16,7 +16,7 @@ const Chat = () => {
 
   const [displayBot, setDisplayBot] = useState<boolean>(false);
   const [allUsers, setAllUsers] = useState<TUser[]>([]);
-  const [allMessages, setAllMessages] = useState<TMessage[]>([]);
+  const [allMessages, setAllMessages] = useState<TMessage[]>([initMessage]);
 
   const [type, setType] = useState<string>('Q');
   const [ref, setRef] = useState<TMessage | null>(null);
@@ -37,19 +37,7 @@ const Chat = () => {
             setAllUsers(Object.values(data));
             break;
           case 'allMessages':
-            setAllMessages([
-              {
-                _id: 'bot-1st-msg',
-                _source: {
-                  type: 'N',
-                  email: 'bot@bot',
-                  nickname: 'BWA',
-                  message:
-                    "Hi, I Am your Chatbot. I can help you find answers already asked on this chat room.<br /><b>Trust me, i'm a robot.<b>",
-                },
-              },
-              ...data,
-            ]);
+            setAllMessages(data);
             break;
           case 'newMessage':
             if (data._source.nickname === 'BWA') {

@@ -17,11 +17,12 @@ export type TMessage = {
 };
 
 export const initMessage = {
-  _id: '',
+  _id: 'bot-1st-msg',
   _source: {
-    type: MessageType.Q,
-    email: '',
-    nickname: '',
-    message: '',
+    type: MessageType.N,
+    email: 'bot@bot',
+    nickname: 'BWA',
+    message:
+      "Hi, I Am your Chatbot. I can help you find answers already asked on this chat room.<br /><b>Trust me, i'm a robot.<b>",
   },
 };

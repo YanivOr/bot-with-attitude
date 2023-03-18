@@ -7,6 +7,7 @@ import { Client as ElasticsearchClient } from '@elastic/elasticsearch';
 import queryString from 'querystring';
 import { allUsers, addUser, delUser } from './controllers/user';
 import { addMessage, fetchAllMessages } from './controllers/messages';
+import { wordsToFilter } from './data';
 
 dotenvConfig();
 
@@ -72,6 +73,7 @@ wss.on('connection', async (ws, req) => {
   ws.on('message', async (data) => {
     const { type, ref, message } = JSON.parse(data.toString());
 
+    /*
     const indexedMessage = await addMessage(room, {
       type,
       ref,
@@ -100,9 +102,23 @@ wss.on('connection', async (ws, req) => {
         );
       }
     });
+    */
 
     // Check message and answer with bot
-    if (false && type === 'Q') {
+    if (type === 'Q') {
+      let relevantTerms: string[] = [];
+
+      const cleanedMessage = message.replace(/[\W_]+/g, ' ');
+      let splittedMessage = cleanedMessage.split(' ');
+
+      splittedMessage.forEach((phrase: string) => {
+        if (phrase && !wordsToFilter.includes(phrase.toLowerCase()))
+          relevantTerms = [...relevantTerms, phrase];
+      });
+
+      console.log(relevantTerms);
+
+      return;
       const typeBot = 'B';
       const refBot = '';
       const emailBot = 'bot@bot';

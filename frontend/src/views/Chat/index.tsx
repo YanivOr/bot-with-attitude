@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useWebSocket from 'react-use-websocket';
+import { delay } from '../../helpers';
 import ChatContext from '../../context/ChatContext';
 import { TUser } from '../../types/user';
 import { TMessage } from '../../types/messages';
@@ -23,7 +24,7 @@ const Chat = () => {
     onOpen: () => {
       console.log('WebSocket connection established.');
     },
-    onMessage: (msg) => {
+    onMessage: async (msg) => {
       try {
         const { type, data } = JSON.parse(msg.data);
 
@@ -89,7 +90,7 @@ const Chat = () => {
         />
         <button onClick={sendButtonClicked}>SEND</button>
       </div>
-      {botParams && <Bot />}
+      {botParams && <Bot hideBot={() => setBotParams(null)} />}
     </div>
   );
 };

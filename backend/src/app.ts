@@ -58,7 +58,7 @@ wss.on('connection', async (ws, req) => {
     ws.send(
       JSON.stringify({
         type: 'allMessages',
-        data: allMessages,
+        data: allMessages.reverse(),
       })
     );
   } catch (error) {

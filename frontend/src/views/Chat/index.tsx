@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useWebSocket from 'react-use-websocket';
-import { delay } from '../../helpers';
+// import { delay } from '../../helpers';
 import ChatContext from '../../context/ChatContext';
 import { TUser } from '../../types/user';
 import { TMessage } from '../../types/messages';
@@ -40,7 +40,7 @@ const Chat = () => {
               setBotParams({});
             }
 
-            setAllMessages([...allMessages, data]);
+            setAllMessages([data, ...allMessages]);
             break;
         }
       } catch (err) {

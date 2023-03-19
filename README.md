@@ -1,4 +1,4 @@
-# bot-with-attitude
+# BWA - bot-with-attitude
 
 ## elasticsearch
 
@@ -58,3 +58,40 @@ cd frontend
 npm i
 npm run dev
 ```
+
+## How to use the app?
+
+You can test the app by opening two browser windows. The address is: http://localhost:5173
+You'll see the login page. Enter the relevant details.
+
+![alt text](images/bwa-1.png)
+
+Now you can chat with the other members. Try asking the following question:
+
+```
+How long is an Olympic swimming pool (in meters)?
+```
+
+![alt text](images/bwa-2.png)
+
+The other user can answer this question by clicking it. A box with this question will appear above the text field. Type:
+
+```
+50 meters
+```
+
+Click send and you'll see a box with both the question and the answer.
+
+![alt text](images/bwa-3.png)
+
+Now try to to ask the same question with some variations. For example:
+
+```
+How long is an olympic pool?
+```
+
+![alt text](images/bwa-4.png)
+
+You'll see some nice animation and more information.
+
+Thanks

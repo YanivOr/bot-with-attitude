@@ -6,8 +6,8 @@ import './Welcome.scss';
 const Welcome = () => {
   const nav = useNavigate();
 
-  const [email, setEmail] = useState<string>('yaniv.or.78@gmail.com');
-  const [nickname, setNickname] = useState<string>('YanivOr');
+  const [email, setEmail] = useState<string>('');
+  const [nickname, setNickname] = useState<string>('');
 
   const { setUser } = useContext(UserContext);
 

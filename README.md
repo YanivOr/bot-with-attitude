@@ -18,7 +18,7 @@ docker run \
       docker.elastic.co/elasticsearch/elasticsearch:8.6.2
 ```
 
-In case of cgroup issues, run the following command and then docker run:
+In case of cgroup issues (linux), run the following command and then docker run:
 
 ```
 sudo mkdir /sys/fs/cgroup/systemd

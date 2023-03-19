@@ -7,10 +7,10 @@ import {
   addMessage,
   searchMatches,
 } from '../controllers/messages';
-import { allUsers, addUser, delUser } from '../controllers/user';
+import { allUsers, addUser, delUser, botParams } from '../controllers/user';
 import { parseQueryString } from './general';
 import { wordsToFilter } from '../data';
-import { TMessage } from '../types/messages';
+import { MessageType, TMessage } from '../types/messages';
 
 const broadcastMessage = (_id: string, params: TMessage) => {
   const { type, ref, email, nickname, message } = params;
@@ -129,10 +129,10 @@ export const initWebSockets = () => {
         if (!matchedAnswers.length) return;
         const matchedAnswer: any = matchedAnswers[0];
 
-        const typeBot = 'B';
+        const typeBot = MessageType.B;
         const refBot = '';
-        const emailBot = 'bot@bot';
-        const nicknameBot = 'BWA';
+        const emailBot = botParams.email;
+        const nicknameBot = botParams.nickname;
         const messageBot = JSON.stringify({
           q: {
             nickname: matchedQuestion._source.nickname,

@@ -2,6 +2,11 @@ import { TUser } from '../types/user';
 
 export const allUsers = new Map();
 
+export const botParams = {
+  email: 'bot@bot',
+  nickname: 'BWA',
+};
+
 export const addUser = (socketId: string, params: TUser) => {
   allUsers.set(socketId, params);
 };
@@ -12,8 +17,8 @@ export const delUser = (socketId: string) => {
 
 export const initBot = () => {
   addUser('bot-socket', {
-    email: 'bot@bot',
-    nickname: 'BWA',
+    email: botParams.email,
+    nickname: botParams.nickname,
     room: 'main-room',
   });
 };

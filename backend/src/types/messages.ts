@@ -1,13 +1,12 @@
-/*
-enum MessageType {
-  Q,
-  A,
-  B,
+export enum MessageType {
+  Q = 'Q',
+  A = 'A',
+  B = 'B',
+  N = 'N',
 }
-*/
 
 export type TMessage = {
-  type: string; // MessageType;
+  type: MessageType;
   ref?: string;
   email: string;
   nickname: string;

@@ -6,7 +6,13 @@ import WebSocket, { WebSocketServer } from 'ws';
 import { Client as ElasticsearchClient } from '@elastic/elasticsearch';
 import queryString from 'querystring';
 import { allUsers, addUser, delUser } from './controllers/user';
-import { addMessage, fetchAllMessages } from './controllers/messages';
+import {
+  fetchAllMessages,
+  fetchMessageById,
+  fetchMessageByRef,
+  addMessage,
+  searchMatches,
+} from './controllers/messages';
 import { wordsToFilter } from './data';
 
 dotenvConfig();
@@ -73,7 +79,6 @@ wss.on('connection', async (ws, req) => {
   ws.on('message', async (data) => {
     const { type, ref, message } = JSON.parse(data.toString());
 
-    /*
     const indexedMessage = await addMessage(room, {
       type,
       ref,
@@ -102,7 +107,6 @@ wss.on('connection', async (ws, req) => {
         );
       }
     });
-    */
 
     // Check message and answer with bot
     if (type === 'Q') {
@@ -116,21 +120,32 @@ wss.on('connection', async (ws, req) => {
           relevantTerms = [...relevantTerms, phrase];
       });
 
-      console.log(relevantTerms);
+      const phrase = relevantTerms.join(' ');
+      const minimumMatch = relevantTerms.length - 1;
 
-      return;
+      const matches = await searchMatches(room, phrase, minimumMatch);
+      if (!matches.length) return;
+
+      const matchedQuestions = await fetchMessageById(room, matches[0]._id);
+      if (!matchedQuestions.length) return;
+      const matchedQuestion: any = matchedQuestions[0];
+
+      const matchedAnswers = await fetchMessageByRef(room, matches[0]._id);
+      if (!matchedAnswers.length) return;
+      const matchedAnswer: any = matchedAnswers[0];
+
       const typeBot = 'B';
       const refBot = '';
       const emailBot = 'bot@bot';
       const nicknameBot = 'BWA';
       const messageBot = JSON.stringify({
         q: {
-          nickname: 'Yaniv Or',
-          message: 'How long is an Olympic swimming pool (in meters)?',
+          nickname: matchedQuestion._source.nickname,
+          message: matchedQuestion._source.message,
         },
         a: {
-          nickname: 'Or',
-          message: '50 meters',
+          nickname: matchedAnswer._source.nickname,
+          message: matchedAnswer._source.message,
         },
       });
 

@@ -15,6 +15,12 @@
     span {
       padding: 5px 20px 5px 0px;
     }
+
+    .ref-question {
+      padding: 5px;
+      font-size: 0.8em;
+      background: var(--light-grey);
+    }
   }
 
   &.mine {
@@ -23,6 +29,12 @@
     .msg {
       background: var(--light-grey);
       cursor: default;
+
+      .ref-question {
+        padding: 5px;
+        font-size: 0.8em;
+        background: var(--beige);
+      }
     }
   }
 }

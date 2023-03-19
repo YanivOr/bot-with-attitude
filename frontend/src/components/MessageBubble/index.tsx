@@ -64,17 +64,49 @@ const MessageBubble = ({
     }
     case 'mine':
     default: {
-      return (
-        <div
-          className={`MessageBubble ${bubbleType === 'mine' ? 'mine' : ''}`}
-          key={_id}
-        >
-          <div className='msg' onClick={() => type === 'Q' && msgClicked(_id)}>
-            <div className='user'>{nickname}</div>
-            <span>{message}</span>
+      let parsedMessage;
+
+      try {
+        parsedMessage = JSON.parse(message);
+      } catch (error) {}
+
+      if (parsedMessage) {
+        return (
+          <div
+            className={`MessageBubble ${bubbleType === 'mine' ? 'mine' : ''}`}
+            key={_id}
+          >
+            <div
+              className='msg'
+              onClick={() => type === 'Q' && msgClicked(_id)}
+            >
+              <div className='ref-question'>
+                <div className='user'>{parsedMessage.q.nickname}</div>
+                <span>{parsedMessage.q.message}</span>
+              </div>
+              <div>
+                <div className='user'>{parsedMessage.a.nickname}</div>
+                <span>{parsedMessage.a.message}</span>
+              </div>
+            </div>
           </div>
-        </div>
-      );
+        );
+      } else {
+        return (
+          <div
+            className={`MessageBubble ${bubbleType === 'mine' ? 'mine' : ''}`}
+            key={_id}
+          >
+            <div
+              className='msg'
+              onClick={() => type === 'Q' && msgClicked(_id)}
+            >
+              <div className='user'>{nickname}</div>
+              <span>{message}</span>
+            </div>
+          </div>
+        );
+      }
     }
   }
 };

@@ -1,10 +1,13 @@
 import { esClient } from '../app';
 import { TMessage } from '../types/messages';
 
+const NUM_RESULTS = 1000;
+
 export const fetchAllMessages = async (room: string) => {
   const result = await esClient.search({
     index: room,
-    size: 1000,
+    size: NUM_RESULTS,
+    sort: [{ timestamp: 'asc' }],
     query: {
       match_all: {},
     },
@@ -28,7 +31,7 @@ export const fetchMessageById = async (room: string, _id: string) => {
 
 export const addMessage = async (
   room: string,
-  { type, ref, email, nickname, message }: TMessage
+  { type, ref, email, nickname, message, timestamp }: TMessage
 ) => {
   const indexedMessage = await esClient.index({
     index: room,
@@ -38,6 +41,7 @@ export const addMessage = async (
       email,
       nickname,
       message,
+      timestamp,
     },
   });
 
@@ -67,6 +71,7 @@ export const searchMatches = async (
 ) => {
   const result = await esClient.search({
     index: room,
+    size: NUM_RESULTS,
     query: {
       match: {
         message: {

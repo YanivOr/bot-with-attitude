@@ -86,12 +86,15 @@ export const initWebSockets = () => {
     ws.on('message', async (data) => {
       const { type, ref, message } = JSON.parse(data.toString());
 
+      const timestamp = Date.now();
+
       const indexedMessage = await addMessage(room, {
         type,
         ref,
         email,
         nickname,
         message,
+        timestamp,
       });
 
       // Broadcast new message
@@ -101,6 +104,7 @@ export const initWebSockets = () => {
         email,
         nickname,
         message,
+        timestamp,
       });
 
       if (ref) {
@@ -160,6 +164,7 @@ export const initWebSockets = () => {
             message: matchedAnswer._source.message,
           },
         });
+        const timestampBot = Date.now();
 
         const indexedMessage = await addMessage(room, {
           type: typeBot,
@@ -167,6 +172,7 @@ export const initWebSockets = () => {
           email: emailBot,
           nickname: nicknameBot,
           message: messageBot,
+          timestamp: timestampBot,
         });
 
         // Broadcast bot message
@@ -176,6 +182,7 @@ export const initWebSockets = () => {
           email: emailBot,
           nickname: nicknameBot,
           message: messageBot,
+          timestamp: timestampBot,
         });
       }
     });

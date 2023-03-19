@@ -9,3 +9,11 @@ export const addUser = (socketId: string, params: TUser) => {
 export const delUser = (socketId: string) => {
   allUsers.delete(socketId);
 };
+
+export const initBot = () => {
+  addUser('bot-socket', {
+    email: 'bot@bot',
+    nickname: 'BWA',
+    room: 'main-room',
+  });
+};

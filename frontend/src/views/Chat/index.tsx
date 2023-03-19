@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useWebSocket from 'react-use-websocket';
-// import { delay } from '../../helpers';
+import { WS_URL } from '../../App';
 import UserContext from '../../context/UserContext';
 import { TUser } from '../../types/user';
 import { TMessage, initMessage } from '../../types/messages';
@@ -10,8 +10,6 @@ import MessageBubble from '../../components/MessageBubble';
 import './Chat.scss';
 
 const Chat = () => {
-  const WS_URL = 'ws://127.0.0.1:3000';
-
   const nav = useNavigate();
 
   const [displayBot, setDisplayBot] = useState<boolean>(false);

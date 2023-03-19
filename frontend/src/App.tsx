@@ -6,6 +6,8 @@ import Welcome from './views/Welcome';
 import Chat from './views/Chat';
 import './App.scss';
 
+export const WS_URL = 'ws://127.0.0.1:3000';
+
 const App = () => {
   const [user, setUser] = useState<TUser>(initUser);
 

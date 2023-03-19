@@ -26,21 +26,6 @@ export const fetchMessageById = async (room: string, _id: string) => {
   return result.hits.hits;
 };
 
-export const fetchMessageByRef = async (room: string, _id: string) => {
-  const result = await esClient.search({
-    index: room,
-    query: {
-      match: {
-        ref: {
-          query: _id,
-        },
-      },
-    },
-  });
-
-  return result.hits.hits;
-};
-
 export const addMessage = async (
   room: string,
   { type, ref, email, nickname, message }: TMessage
@@ -53,6 +38,20 @@ export const addMessage = async (
       email,
       nickname,
       message,
+    },
+  });
+
+  await esClient.indices.refresh({ index: room });
+
+  return indexedMessage;
+};
+
+export const updateMessage = async (room: string, _id: string, params: any) => {
+  const indexedMessage = await esClient.update({
+    index: room,
+    id: _id,
+    body: {
+      doc: params,
     },
   });
 

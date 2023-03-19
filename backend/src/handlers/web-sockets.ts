@@ -3,8 +3,8 @@ import { wss } from '../app';
 import {
   fetchAllMessages,
   fetchMessageById,
-  fetchMessageByRef,
   addMessage,
+  updateMessage,
   searchMatches,
 } from '../controllers/messages';
 import { allUsers, addUser, delUser, botParams } from '../controllers/user';
@@ -103,6 +103,12 @@ export const initWebSockets = () => {
         message,
       });
 
+      if (ref) {
+        await updateMessage(room, ref, {
+          ref: indexedMessage._id,
+        });
+      }
+
       // Check message and answer with bot
       if (type === 'Q') {
         let relevantTerms: string[] = [];
@@ -121,11 +127,22 @@ export const initWebSockets = () => {
         const matches = await searchMatches(room, phrase, minimumMatch);
         if (!matches.length) return;
 
-        const matchedQuestions = await fetchMessageById(room, matches[0]._id);
-        if (!matchedQuestions.length) return;
-        const matchedQuestion: any = matchedQuestions[0];
+        let matchedQuestion: any;
 
-        const matchedAnswers = await fetchMessageByRef(room, matches[0]._id);
+        matches.forEach((match: any) => {
+          if (match._source.ref) {
+            matchedQuestion = match;
+            return;
+          }
+        });
+
+        if (!matchedQuestion) return;
+
+        const matchedAnswers = await fetchMessageById(
+          room,
+          matchedQuestion._source.ref
+        );
+
         if (!matchedAnswers.length) return;
         const matchedAnswer: any = matchedAnswers[0];
 

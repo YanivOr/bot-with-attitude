@@ -66,17 +66,15 @@ export const initWebSockets = () => {
       room,
     });
 
-    try {
-      const allMessages = await fetchAllMessages(room);
+    const allMessages = await fetchAllMessages(room);
 
+    if (allMessages) {
       ws.send(
         JSON.stringify({
           type: 'allMessages',
           data: allMessages.reverse(),
         })
       );
-    } catch (error) {
-      console.log(error);
     }
 
     ws.on('close', (ws, req) => {
@@ -96,6 +94,8 @@ export const initWebSockets = () => {
         message,
         timestamp,
       });
+
+      if (!indexedMessage) return;
 
       // Broadcast new message
       broadcastMessage(indexedMessage._id, {
@@ -129,7 +129,7 @@ export const initWebSockets = () => {
         const minimumMatch = relevantTerms.length - 1;
 
         const matches = await searchMatches(room, phrase, minimumMatch);
-        if (!matches.length) return;
+        if (!matches || !matches.length) return;
 
         let matchedQuestion: any;
 
@@ -147,7 +147,7 @@ export const initWebSockets = () => {
           matchedQuestion._source.ref
         );
 
-        if (!matchedAnswers.length) return;
+        if (!matchedAnswers || !matchedAnswers.length) return;
         const matchedAnswer: any = matchedAnswers[0];
 
         const typeBot = MessageType.B;
@@ -174,6 +174,8 @@ export const initWebSockets = () => {
           message: messageBot,
           timestamp: timestampBot,
         });
+
+        if (!indexedMessage) return;
 
         // Broadcast bot message
         broadcastMessage(indexedMessage._id, {

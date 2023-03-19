@@ -144,7 +144,7 @@ const Chat = () => {
         />
         <button onClick={sendButtonClicked}>SEND</button>
       </div>
-      {displayBot && <Bot hideBot={() => setDisplayBot(false)} />}
+      <Bot displayBot={displayBot} hideBot={() => setDisplayBot(false)} />
     </div>
   );
 };

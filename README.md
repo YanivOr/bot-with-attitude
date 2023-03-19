@@ -18,7 +18,7 @@ docker run \
       docker.elastic.co/elasticsearch/elasticsearch:8.6.2
 ```
 
-In case of cgroup issues:
+In case of cgroup issues, run the following command and then docker run:
 
 ```
 sudo mkdir /sys/fs/cgroup/systemd
@@ -31,12 +31,30 @@ Test with:
 curl 127.0.0.1:9200
 ```
 
+## backend
+
+create .env file inside the backend folder
+
 ```
-curl -XGET --header 'Content-Type: application/json' http://localhost:9200/main-room/_search/?pretty=true -d '{"query" : {"match_all" : { }}}'
+PORT_REST=8000
+PORT_WS=3000
+ES_ENDPOINT=http://127.0.0.1:9200
+```
 
-curl -XGET --header 'Content-Type: application/json' http://localhost:9200/main-room/_search/?pretty=true -d '{"query" : {"fuzzy" : { "message": "How long is an Olympic swimming pool (in meters)?"}}}'
+run the server
 
-curl -XGET --header 'Content-Type: application/json' http://localhost:9200/main-room/_search/?pretty=true -d '{"query" : {"terms" : { "message": ["olympic" , "swimming"]}}}'
+```
+cd backend
+npm i
+npm run dev
+```
 
+## frontend
 
+run the react application
+
+```
+cd frontend
+npm i
+npm run dev
 ```

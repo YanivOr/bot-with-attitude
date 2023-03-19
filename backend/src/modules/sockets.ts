@@ -6,9 +6,9 @@ import {
   addMessage,
   updateMessage,
   searchMatches,
-} from '../controllers/messages';
-import { allUsers, addUser, delUser, botParams } from '../controllers/user';
-import { parseQueryString } from './general';
+} from './messages';
+import { allUsers, addUser, delUser, botParams } from './user';
+import { parseQueryString } from '../helpers/general';
 import { wordsToFilter } from '../data';
 import { MessageType, TMessage } from '../types/messages';
 
@@ -86,12 +86,32 @@ export const initWebSockets = () => {
 
       const timestamp = Date.now();
 
+      let refMessage;
+
+      if (ref) {
+        const refQuestions: any = await fetchMessageById(room, ref);
+        const refQuestion = refQuestions[0];
+
+        if (refQuestion) {
+          refMessage = JSON.stringify({
+            q: {
+              nickname: refQuestion._source.nickname,
+              message: refQuestion._source.message,
+            },
+            a: {
+              nickname: nickname,
+              message: message,
+            },
+          });
+        }
+      }
+
       const indexedMessage = await addMessage(room, {
         type,
         ref,
         email,
         nickname,
-        message,
+        message: refMessage || message,
         timestamp,
       });
 
@@ -103,7 +123,7 @@ export const initWebSockets = () => {
         ref,
         email,
         nickname,
-        message,
+        message: refMessage || message,
         timestamp,
       });
 

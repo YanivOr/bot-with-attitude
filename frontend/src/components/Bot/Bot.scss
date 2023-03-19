@@ -1,91 +1,25 @@
 .Bot.airplane {
   position: absolute;
   top: 100px;
-  left: 30%;
-  // width: 781px;
-  // height: 146px;
-  width: 547px;
-  height: 102px;
-  background: url('../../assets/airplane.png') no-repeat;
+  left: 100%;
+  width: 781px;
+  height: 146px;
+  background: url('../../assets/airplane-original.png') no-repeat;
   cursor: pointer;
 
   .banner-text {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 322px;
-    height: 50px;
-    margin-left: 198px;
-    margin-top: 32px;
-    font-size: 0.7em;
-    /*
     width: 430px;
     height: 50px;
     margin-left: 300px;
     margin-top: 58px;
     font-size: 0.8em;
-    */
   }
 
-  /* for chrome and safari*/
-  -webkit-animation-duration: 3s;
-  -webkit-animation-name: slidein;
-
-  /*for firefox*/
-  -moz-animation-duration: 3s;
-  -moz-animation-name: slidein;
-
-  /* for opera*/
-  -o-animation-duration: 3s;
-  -o-animation-name: slidein;
-
-  /* Standard syntax*/
-  animation-duration: 3s;
-  animation-name: slidein;
-}
-
-@-webkit-keyframes slidein {
-  from {
-    margin-left: 100%;
-    width: 300%;
-  }
-
-  to {
-    margin-left: 0%;
-    width: 100%;
-  }
-}
-
-@-moz-keyframes slidein {
-  from {
-    margin-left: 100%;
-    width: 300%;
-  }
-
-  to {
-    margin-left: 0%;
-    width: 100%;
-  }
-}
-@-o-keyframes slidein {
-  from {
-    margin-left: 100%;
-    width: 300%;
-  }
-
-  to {
-    margin-left: 0%;
-    width: 100%;
-  }
-}
-@keyframes slidein {
-  from {
-    margin-left: 100%;
-    width: 300%;
-  }
-
-  to {
-    margin-left: 0%;
-    width: 100%;
+  &.displayBot {
+    left: calc(0% - 220px);
+    transition: left 5s;
   }
 }

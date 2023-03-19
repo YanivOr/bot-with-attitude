@@ -136,6 +136,8 @@ export const initWebSockets = () => {
       // Check message and answer with bot
       if (type === 'Q') {
         let relevantTerms: string[] = [];
+        let matchedAnswer: any;
+        let parsedMessage: any;
 
         const cleanedMessage = message.replace(/[\W_]+/g, ' ');
         let splittedMessage = cleanedMessage.split(' ');
@@ -151,39 +153,20 @@ export const initWebSockets = () => {
         const matches = await searchMatches(room, phrase, minimumMatch);
         if (!matches || !matches.length) return;
 
-        let matchedQuestion: any;
-
         matches.forEach((match: any) => {
           if (match._source.ref) {
-            matchedQuestion = match;
+            matchedAnswer = match;
             return;
           }
         });
 
-        if (!matchedQuestion) return;
-
-        const matchedAnswers = await fetchMessageById(
-          room,
-          matchedQuestion._source.ref
-        );
-
-        if (!matchedAnswers || !matchedAnswers.length) return;
-        const matchedAnswer: any = matchedAnswers[0];
+        if (!matchedAnswer) return;
 
         const typeBot = MessageType.B;
         const refBot = '';
         const emailBot = botParams.email;
         const nicknameBot = botParams.nickname;
-        const messageBot = JSON.stringify({
-          q: {
-            nickname: matchedQuestion._source.nickname,
-            message: matchedQuestion._source.message,
-          },
-          a: {
-            nickname: matchedAnswer._source.nickname,
-            message: matchedAnswer._source.message,
-          },
-        });
+        const messageBot = matchedAnswer._source.message;
         const timestampBot = Date.now();
 
         const indexedMessage = await addMessage(room, {
